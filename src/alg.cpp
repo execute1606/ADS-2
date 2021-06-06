@@ -1,55 +1,52 @@
 // Copyright 2021 NNTU-CS
 
 int countPairs1(int* arr, int len, int value) {
-    int pairs = 0;
+    int chet = 0;
     for (int i = 0; i < len - 1; i++) {
         for (int j = i + 1; j < len; j++) {
-            if (arr[i] + arr[j] == value) {
-                pairs++;
-            }
+            if ((arr[i] + arr[j]) == value)
+                chet++;
         }
     }
-    return pairs;
+    return chet;
 }
 
 int countPairs2(int* arr, int len, int value) {
-    int pairs = 0;
-    int i = len - 1;
-    while (arr[i] > value) {
-        i--;
-    }
-    for (i; i > 0; i--) {
-        for (int j = 0; j < i; j++) {
-            if (arr[i] + arr[j] == value)
-                pairs++;
+    int chet = 0;
+    for (int i = len - 1; i > 0; i--) {
+        if (arr[i] <= value) {
+            for (int j = 0; j < i; j++) {
+                if ((arr[i] + arr[j]) == value)
+                    chet++;
+            }
         }
     }
-    return pairs;
+    return chet;
 }
 
 int countPairs3(int* arr, int len, int value) {
-    int pairs = 0;
+    int chet = 0;
     for (int i = 0; i < len - 1; i++) {
-        int left = i + 1, right = len;
+        int left = i + 1, right = len, twoElement = value - arr[i];
         while (left < right) {
-            int cen = (left + right) / 2;
-            if (arr[cen] == (value - arr[i])) {
-                while (arr[cen - 1] == (value - arr[i]) && (cen > left)) {
-                    cen--;
+            int cent = (left + right) / 2;
+            if (arr[cent] == twoElement) {
+                while ((arr[cent - 1] == twoElement) && (cent > left)) {
+                    cent--;
                 }
-                while (arr[cen] == (value - arr[i])) {
-                    cen++;
-                    pairs++;
+                while (arr[cent] == twoElement) {
+                    cent++;
+                    chet++;
                 }
                 break;
             }
-            else if (arr[cen] > (value - arr[i])) {
-                right = cen;
+            else if (arr[cent] > twoElement) {
+                right = cent;
             }
             else {
-                left = cen + 1;
+                left = cent + 1;
             }
         }
     }
-    return pairs;
+    return chet;
 }
